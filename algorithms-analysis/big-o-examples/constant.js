@@ -5,7 +5,7 @@
 
 /**
  * Return true if an array is empty and false otherwise
- * @param {Array | String} arr
+ * @param {Array | String}
  * @example
  * isEmpty() // true
  * isEmpty([]) // true
