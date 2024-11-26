@@ -4,10 +4,18 @@
 */
 
 /**
- * @name Recursive binary search
- * @description The binary search implementation is a recursive algorithm,
+ * @summary
+ * Recursive binary search. The binary search implementation is a recursive algorithm,
  * which means that the function calls itself multiple times until the
  * program finds a solution. The binary search splits the array in half every time
+ * 
+ * @description This function uses a recursive approach to find an element 
+ * in a sorted array. It splits the array in half and compares the middle
+ * element with the search value. If the middle element is the search value,
+ * it returns the index of the element. If the middle element is less than
+ * the search value, it recursively calls the function with the right half
+ * of the array. If the middle element is greater than the search value, it
+ * recursively calls the function with the left half of the array.
  * 
  * @example
  * binarySearch([1, 2, 3], 2); // 1
