@@ -13,12 +13,23 @@
  * @param arr - The array of integers
  * @param target - The target
  * @returns {number[]} - array with the values that add up to target
+ * twoSum([ -5, -3, 1, 10 ], 7); // [-3, 10] // (10 - 3 = 7)
+ * twoSum([ -5, -3, -1, 1, 2 ], 30); // [] // no 2 numbers add up to 30
+ * twoSum([ -3, -2, -1, 1, 1,  3,  4], -4); // [-3, -1] // (-3 -1 = -4)
  */
 export function twoSum(arr, target) {
     let left = 0;
-    let right = 0;
+    let right = arr.length -1;
+    
+    while (left < right) {
+        const sum = arr[left] + arr[right];
 
-    if (left + right === target) {
-        return [left, right];
-    };
+        if (sum === target) return [arr[left], arr[right]];
+        else if (sum > target) right--;
+        else left++;
+    }
+
+    return [];
 }
+
+//* With this solution we have a Runtime of O(n)
