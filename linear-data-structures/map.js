@@ -75,3 +75,35 @@ c.get(4); // Returns -1 (key 4 not found)
 
 //* Time Complexity: O(1)
 //* Space complexity: O(k) --> k is the capacity of the cache
+
+//? Trading Speed for Space
+
+//* Maps have a O(1) runtime for lookups and O(n) space complexity.
+//* It can improve the speed of programs in exchange for using a
+//* little bit more of memory. Let’s do an example.
+
+//* 2. Given a text, return the most common words in descending order.
+//* You should sanitize the input by removing punctuation !?',;. and
+//* converting all letters to lowercase. Return the most common words
+//* in descending order.
+
+/**
+ * Given text and banned words,
+ * return the most common words in descending order.
+ * @param {string} text - The text to parse.
+ * @param {number} n - The number of results.
+ * @return {string[]}
+ * @example
+    * mostCommonWords(
+    'The map, maps keys to values; Keys can be anything.',
+    1); // ['keys']
+    mostCommonWords(
+    'Look at it! What is it? It does look like my code from 1 year ago',
+    2); // ['it', 'look']
+    mostCommonWords(
+    'a; a,b, a\'s c A!; b,B,    c.',
+    4); // ['a', 'b', 'c', 's']
+ */
+export function mostCommonWords(text, n = 1) {
+    // you code goes here
+  }
