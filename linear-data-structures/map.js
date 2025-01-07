@@ -105,5 +105,55 @@ c.get(4); // Returns -1 (key 4 not found)
     4); // ['a', 'b', 'c', 's']
  */
 export function mostCommonWords(text, n = 1) {
-    // you code goes here
+    const regex = /\W+/;
+    const filteredWords = text.toLowerCase().split(regex).filter(Boolean);
+
+    const map = filteredWords.reduce((m, w) => m.set(w, 1 + (m.get(w) || 0)) , new Map());
+
+    return Array.from(map.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, n)
+        .map((w) => w[0]);
   }
+
+// console.log(mostCommonWords(
+    
+//     'The map, maps keys to values; Keys can be anything.',
+//     1
+// ));
+
+//* Time complexity: O(n log n)
+//* Space Complexity: O(n)
+
+//? Sliding Window
+
+//* We use two pointers and return the window between the pointers
+
+//* 3. Return the length of the longest substring without repeating characters
+
+/**
+ * Return the length of the longest substring without repeating characters.
+ * @param {string} s
+ * @return {number}
+ * @examples
+ * longestSubstring('abcdaefg'); // 7 ('bcdaefg')
+ * longestSubstring('abbaa'); // 2 ('ab')
+ * longestSubstring('abbadvdf') // 4 ('badv')
+ */
+function longestSubstring(s) {
+    const map = new Map();
+    let max = 0;
+
+    for (let hi = 0, lo = 0; hi < s.length; hi++) {
+        if (map.has(s[hi])) lo = Math.max(lo, map.get(s[hi]) + 1);
+        map.set(s[hi], hi);
+        max = Math.max(max, hi - lo + 1)
+    }
+
+    return max;
+  };
+
+// console.log(longestSubstring('abcdaefg'));
+
+//* Time Complexity: O(n)
+//* Space Complexity: O(n)
