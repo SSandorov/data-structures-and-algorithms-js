@@ -157,3 +157,43 @@ function longestSubstring(s) {
 
 //* Time Complexity: O(n)
 //* Space Complexity: O(n)
+
+//? Practice Questions
+
+//? Fit two movies in a flight
+
+//* 4. You are working in an entertainment recommendation system for an airline.
+//* Given a flight duration (target) and an array of movies length, you need to
+//* recommend two movies that fit exactly the length of the flight. Return an
+//* array with the indices of the two numbers that add up to the target. No
+//* duplicates are allowed. If it’s not possible return an empty array
+
+/**
+ * Find two numbers that add up to the target value.
+ * Return empty array if not found.
+ * @param {number[]} nums - Array of integers
+ * @param {number} target - The target sum.
+ * @returns {[number, number]} - Array with index 1 and index 2
+ * @example
+ * twoSum([113, 248, 80, 200, 91, 201, 68], 316); // [1, 6] (248 + 68 = 316)
+ * twoSum([150, 100, 200], 300); // [2, 3] (100 + 200 = 300)
+ * twoSum([150, 100, 200], 150); // [] (No two numbers add up to 150)
+ */
+function twoSum(nums, target) {
+
+    const map = new Map();
+
+    for (let i = 0; i < nums.length; i++) {
+        const complement = target - nums[i];
+
+        if (map.has(nums[i])) return [map.get(nums[i]), i];
+        map.set(complement, i);
+    }
+
+    return [];
+}
+
+console.log(twoSum([113, 248, 80, 200, 91, 201, 68], 316));
+
+//* Time Complexity: O(n)
+//* Space Complexity: O(n)
