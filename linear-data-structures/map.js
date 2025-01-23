@@ -193,7 +193,41 @@ function twoSum(nums, target) {
     return [];
 }
 
-console.log(twoSum([113, 248, 80, 200, 91, 201, 68], 316));
+// console.log(twoSum([113, 248, 80, 200, 91, 201, 68], 316));
 
 //* Time Complexity: O(n)
 //* Space Complexity: O(n)
+
+//? Subarray sum that equals K
+
+//* Given an array of integers, find all the possible subarrays to add up to k
+//* Return the count
+/**
+ * Find the number of subarrays that add up to k.
+ * @example subarraySum([1, 1, 1], 1); // 3 ([1], [1], [1] equals 1)
+ * @example subaraySum([1, 2, 3, 0, 1, 4, 0, 5], 5) // 8 | [2, 3], [2,3,0], [0,1,4], [0,1,4,0], [1,4], [1,4,0], [0,5], [5]
+ * 
+ * @param {number[]} nums - Array of integers.
+ * @param {number} k - The target sum.
+ * @returns {number} - The number of solutions.
+ */
+function subarraySum(nums, k) {
+
+    let solutions = 0;
+    let sum = 0;
+    const map = new Map([[0, 1]]);
+
+    for (let i = 0; i < nums.length; i++) {
+        sum += nums[i];
+        if (map.has(sum - k)) solutions += map.get(sum - k);
+        map.set(sum, 1 + (map.get(sum) || 0));
+
+    }
+    console.log(map)
+
+    return solutions;
+}
+//* Time complexity: O(n)
+//* Space complexity: O(n)
+
+console.log(subarraySum([1, 2, 3, 0, 1, 4, 0, 5], 5));
