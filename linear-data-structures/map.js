@@ -221,13 +221,9 @@ function subarraySum(nums, k) {
         sum += nums[i];
         if (map.has(sum - k)) solutions += map.get(sum - k);
         map.set(sum, 1 + (map.get(sum) || 0));
-
     }
-    console.log(map)
 
     return solutions;
 }
 //* Time complexity: O(n)
 //* Space complexity: O(n)
-
-console.log(subarraySum([1, 2, 3, 0, 1, 4, 0, 5], 5));
