@@ -12,6 +12,7 @@
   "description": "Data Structures and Algorithms in JavaScript",
   "type": "module",
   "dependencies": {
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "perf_hooks": "^0.0.1"
   }
 }
