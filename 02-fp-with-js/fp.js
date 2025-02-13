@@ -27,7 +27,7 @@ console.log("Reduced array: ", reducedArray);
 
 const reducedArray2 = myArray.reduce((a, v) => ({ s: a.s + v, c: a.c + 1 }), {
   s: 0,
-  c: 0
+  c: 0,
 });
 console.log("Reduced array 2: ", reducedArray2);
 
