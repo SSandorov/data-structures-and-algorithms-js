@@ -89,3 +89,13 @@ Count all			bag -> integer											Given a bag, return how many values it cont
 	Remove all		bag x value -> bag								Given a bag and a value, remove all the value’s instances from the bag.
 	Find next			bag x value -> value | undefined	Given a bag and value, find the closest higher value to the value in the bag.
 */
+
+//? 4. Wrong operations
+//* When defining an ADT, how could you specify error results, such as possibly throwing an exception
+//* or returning some kind of special value?
+
+/*
+ -> exception
+ -> error
+ -> CustomType
+*/
