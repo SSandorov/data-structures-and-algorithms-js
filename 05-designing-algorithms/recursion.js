@@ -30,7 +30,7 @@ const factorial = (n) => {
 //? Searching and Traversing
 //* An example is the Fibonacci series
 //* It starts with a 0 and 1, and later, each item is the sum of the two previous ones
-const fibonacci = (n) => {
+export const fibonacci = (n) => {
   if (n === 0) {
     return 0;
   } else if (n === 1) {
