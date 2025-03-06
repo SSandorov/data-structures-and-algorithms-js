@@ -58,9 +58,57 @@ const memoFibonacci = memoize((n) => {
     return memoFibonacci(n - 2) + memoFibonacci(n - 1);
   }
 });
-console.log(memoFibonacci(100));
+// console.log(memoFibonacci(100));
 //* Instead of being exponential O(k^n), it becomes linear O(n)
 //* This happens because Fibonacci 100 includes all previous numbers, so it only
 //* needs to calculate the 100 and extract from memory the rest of the values
 
 //? Line Breaking with top down DP
+
+// const totalWidth = (x, y) => {
+//   return y - x;
+// };
+
+// const costOfFragment = memoize((p, q) => {
+//   const s = totalWidth(p, q);
+
+//   if (s <= MW) {
+//     return [(MW - s) ** 2, [q]];
+//   }
+
+//   let optimum = Infinity;
+//   let split = [];
+
+//   for (let r = p; r < q; r++) {
+//     const left = costOfFragment(p, r);
+//     const right = costOfFragment(r + 1, 1);
+//     const newTry = left[o] + right[0];
+
+//     if (newTry < optimum) {
+//       optimum = newTry;
+//       split = [r, ...right[1]];
+//     }
+//   }
+//   return [optimum, split];
+// });
+
+// const blocks = [7, 2, 5, 3, 6];
+// const optimalDistrubution = costOfFragment(0, blocks.length - 1);
+// console.log(optimalDistrubution[0], optimalDistrubution[1]);
+
+//? Fibonnaci Series with Bottom up DP
+const fibonacciBottomUp = (n) => {
+  if (n < 2) {
+    return n;
+  } else {
+    let a = 0;
+    let b = 1;
+
+    while (n > 1) {
+      [a, b] = [b, a + b];
+      n--;
+    }
+    return b;
+  }
+};
+console.log(fibonacciBottomUp(100));
