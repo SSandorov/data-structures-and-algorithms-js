@@ -65,10 +65,6 @@ const memoFibonacci = memoize((n) => {
 
 //? Line Breaking with top down DP
 
-// const totalWidth = (x, y) => {
-//   return y - x;
-// };
-
 // const costOfFragment = memoize((p, q) => {
 //   const s = totalWidth(p, q);
 
@@ -111,4 +107,43 @@ const fibonacciBottomUp = (n) => {
     return b;
   }
 };
-console.log(fibonacciBottomUp(100));
+// console.log(fibonacciBottomUp(100));
+
+//? Summing ranges recursiveky with Bottom Up DP
+
+//* First implementation with a loop --> O(n)
+const totalWidth1 = (arr, from, to) => {
+  let sum = 0;
+  for (let i = from; i <= to; i++) {
+    sum += arr[i];
+  }
+  return sum;
+};
+
+//* Second implementation with loop but memorizing previous implementations
+const totalWidth2 = memoize(totalWidth1);
+
+//* Third is applying recursion to break it in small problems
+const totalWidth3 = memoize((arr, from, to) => {
+  if (from === to) {
+    return arr[from];
+  } else if (from === 0) {
+    return totalWidth3(arr, 0, to -1) + arr[to];
+  } else {
+    return totalWidth3(arr, 0, to) - totalWidth3(arr, 0, from - 1);
+  }
+});
+//* Because it caches all previous ranges, it will start as an O(n) but it will end up as a
+//* O(1)
+
+//? Summing ranges by precomputing with Bottom Up DP
+
+//* Using bottom up will produce a O(1) complexity
+const totalWidth4 = ((tab) => {
+  const partial = [0];
+  tab.forEach((v, i) => {
+    partial[i + 1] = partial[i] + v;
+  });
+  return (from, to) => partial[to + 1] - partial[from];
+})(arr);
+
