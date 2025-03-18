@@ -1,9 +1,9 @@
 //? Brute force search
 
 /*
-* These algorithms attempt to find a solution to a problem by systematically trying all possible 
-* combination of values
-*/
+ * These algorithms attempt to find a solution to a problem by systematically trying all possible
+ * combination of values
+ */
 
 //? Greedy algorithms
 
