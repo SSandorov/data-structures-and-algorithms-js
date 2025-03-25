@@ -5,7 +5,6 @@
  *   the keys are in nondecreasing order, and the output list is a permutation of the inputn list, retaining all original records
  */
 
-
 //* own sort method in JS sort() and toSorted()
 
 // const a = [22, 9, 60, 12, 4, 56];
@@ -34,11 +33,11 @@ const bubbleSort = (arr, from = 0, to = arr.length - 1) => {
     }
   }
   return arr;
-}
-console.info('bubble Sort')
-console.time()
-console.log(bubbleSort(arrayToBeSorted))
-console.timeEnd()
+};
+console.info("bubble Sort");
+console.time();
+console.log(bubbleSort(arrayToBeSorted));
+console.timeEnd();
 
 //? Sinking Sort
 //* Bubble sort quickly moves the greates values to the end of an array, but the smallest values may take a while to reach
@@ -52,7 +51,7 @@ const shuttleSort = (arr, from = 0, to = arr.length - 1) => {
   let t = to;
 
   while (f < t) {
-    for (let i = f; i <= t -1; i++) {
+    for (let i = f; i <= t - 1; i++) {
       if (arr[i] > arr[i + 1]) {
         [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
       }
@@ -68,8 +67,127 @@ const shuttleSort = (arr, from = 0, to = arr.length - 1) => {
   }
 
   return arr;
-}
-console.info('Shuttle Sort')
-console.time()
-console.log(shuttleSort(arrayToBeSorted))
-console.timeEnd()
+};
+console.info("Shuttle Sort");
+console.time();
+console.log(shuttleSort(arrayToBeSorted));
+console.timeEnd();
+
+//? Selection Sort
+//* This algorithm will look for the lowest number and swap its position with the first element on the left. It will keep
+//* on doing it until if orders the array
+const selectionSort = (arr, from = 0, to = arr.length - 1) => {
+  for (let i = from; i <= to; i++) {
+    let m = i;
+    for (let j = i + 1; j <= to; j++) {
+      if (arr[m] > arr[j]) {
+        m = j;
+      }
+    }
+    if (m !== i) {
+      [arr[i], arr[m]] = [arr[m], arr[i]];
+    }
+  }
+  return arr;
+};
+//* This algorithm is still a O(n^2)
+console.info("Selection Sort");
+console.time();
+console.log(selectionSort(arrayToBeSorted));
+console.timeEnd();
+
+//? Insertion Sort
+//* The first number is already sorted. When you take the second one, you compare it with the first one and sort them.
+//* Then you do it with the third element, and insert it where it has to go to sort them all. You keep on going
+//* until is sorted. It is called insertion sort because of the way you insert new cards among the previously
+//* sorted ones
+const insertionSort2Loop = (arr, from = 0, to = arr.length - 1) => {
+  for (let i = from + 1; i <= to; i++) {
+    for (let j = i; j > from && arr[j - 1] > arr[j]; j--) {
+      [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]];
+    }
+  }
+  return arr;
+};
+console.info("Insertion Sort 2-Loop");
+console.time();
+console.log(insertionSort2Loop(arrayToBeSorted));
+console.timeEnd();
+
+const insertionSortOptimized = (arr, from = 0, to = arr.length - 1) => {
+  for (let i = from + 1; i <= to; i++) {
+    const temp = arr[i];
+    let j;
+    for (j = i; j > from && arr[j - 1] > temp; j--) {
+      arr[j] = arr[j - 1];
+    }
+    arr[j] = temp;
+  }
+  return arr;
+};
+console.info("Insertion Sort Optimized");
+console.time();
+console.log(insertionSortOptimized(arrayToBeSorted));
+console.timeEnd();
+//* Both of them are O(n^2)
+
+//? Comb sort
+//* Similar to bubble sort, but in this case you consider larger gaps to compare with
+//* Each pass will be smaller than the previous until you are left with only gap, and
+//* a bubble sort will be done
+const combSort = (arr, from = 0, to = arr.length - 1) => {
+  const SHRINK_FACTOR = 1.3;
+
+  let gap = to - from + 1;
+  for (;;) {
+    gap = Math.floor(gap / SHRINK_FACTOR);
+    if (gap === 1) {
+      return bubbleSort(arr, from, to);
+    }
+    for (let i = from; i <= to - gap; i++) {
+      if (arr[i] > arr[i + gap]) {
+        [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+      }
+    }
+  }
+};
+console.info("Comb Sort");
+console.time();
+console.log(combSort(arrayToBeSorted));
+console.timeEnd();
+//* O(n^2)
+
+//? Shell Sort
+//* It combines the comb sort with the insertion sort. It compares elements with a gap between them
+//* and swaps them. Then the gap is reduced and the same is done. We continue until the gap is 1
+//* and do instertion until is completed.
+const shellSort = (arr, from = 0, to = arr.length - 1) => {
+  const gaps = [1];
+
+  while (gaps[0] < (to - from) / 3) {
+    gaps.unshift(gaps[0] * 3 + 1);
+  }
+
+  gaps.forEach((gap) => {
+    for (let i = from + gap; i <= to; i++) {
+      const temp = arr[i];
+      let j;
+      for (j = i; j >= from + gap && arr[j - gap] > temp; j -= gap) {
+        arr[j] = arr[j - gap];
+      }
+      arr[j] = temp;
+    }
+  });
+  return arr;
+};
+console.info("Shell Sort");
+console.time();
+console.log(shellSort(arrayToBeSorted));
+console.timeEnd();
+//* O(n^1.5)
+
+//? Quicksort
+//* It achieves a O(n logn) BUT with its worst-case scenario a O(n^4), so we have to be aware of
+//* the cases where we must not use it
+
+//? Standard version Quicksort
