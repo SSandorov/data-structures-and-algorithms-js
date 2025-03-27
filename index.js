@@ -16,6 +16,12 @@
 //! Old version on JS do not take into consideration the stability in the sort method.
 const arrayToBeSorted = [34, 12, 22, 9, 4, 60, 56, 14];
 
+let randomArray = [];
+const nElementsArray = 100000;
+for (let i = 0; i <= nElementsArray; i++) {
+  randomArray.push(Math.floor(Math.random()*100));
+}
+
 //? Sorting with Comparisons
 
 //? Bubble sort
@@ -93,7 +99,7 @@ const selectionSort = (arr, from = 0, to = arr.length - 1) => {
 //* This algorithm is still a O(n^2)
 console.info("Selection Sort");
 console.time();
-console.log(selectionSort(arrayToBeSorted));
+console.log(selectionSort(randomArray));
 console.timeEnd();
 
 //? Insertion Sort
@@ -111,7 +117,7 @@ const insertionSort2Loop = (arr, from = 0, to = arr.length - 1) => {
 };
 console.info("Insertion Sort 2-Loop");
 console.time();
-console.log(insertionSort2Loop(arrayToBeSorted));
+console.log(insertionSort2Loop(randomArray));
 console.timeEnd();
 
 const insertionSortOptimized = (arr, from = 0, to = arr.length - 1) => {
@@ -127,7 +133,7 @@ const insertionSortOptimized = (arr, from = 0, to = arr.length - 1) => {
 };
 console.info("Insertion Sort Optimized");
 console.time();
-console.log(insertionSortOptimized(arrayToBeSorted));
+console.log(insertionSortOptimized(randomArray));
 console.timeEnd();
 //* Both of them are O(n^2)
 
@@ -153,7 +159,7 @@ const combSort = (arr, from = 0, to = arr.length - 1) => {
 };
 console.info("Comb Sort");
 console.time();
-console.log(combSort(arrayToBeSorted));
+console.log(combSort(randomArray));
 console.timeEnd();
 //* O(n^2)
 
@@ -182,12 +188,66 @@ const shellSort = (arr, from = 0, to = arr.length - 1) => {
 };
 console.info("Shell Sort");
 console.time();
-console.log(shellSort(arrayToBeSorted));
+console.log(shellSort(randomArray));
 console.timeEnd();
 //* O(n^1.5)
 
 //? Quicksort
-//* It achieves a O(n logn) BUT with its worst-case scenario a O(n^4), so we have to be aware of
+//* It achieves a O(n logn) BUT with its worst-case scenario a O(n^2), so we have to be aware of
 //* the cases where we must not use it
 
 //? Standard version Quicksort
+//* Recursively select an element of the array, and sort the two subarrays between the element depending if they are smaller
+//* or bigger than the element. You end up with a sorted array
+const standardQuicksort = (arr, left = 0, right = arr.length - 1) => {
+  const middle = Math.floor((left + right)/2);
+  if (arr[left] > arr[middle]) {
+    [arr[left], arr[middle]] = [arr[middle], arr[left]];
+  }
+  if (arr[left] > arr[right]) {
+    [arr[left], arr[right]] = [arr[right], arr[left]];
+  }
+  if (arr[right] > arr[middle]) {
+    [arr[right], arr[middle]] = [arr[middle], arr[right]];
+  }
+
+  if (left < right){
+    const pivot = arr[right];
+
+    let p = left;
+    for (let j = left; j < right; j++) {
+      if (pivot > arr[j]) {
+        [arr[p], arr[j]] = [arr[j], arr[p]];
+        p++;
+      }
+    }
+    [arr[p], arr[right]] = [arr[right], arr[p]];
+
+    standardQuicksort(arr, left, p - 1);
+    standardQuicksort(arr, p + 1, right);
+  }
+
+  return arr;
+}
+console.info("Quicksort Standard Version");
+console.time();
+console.log(shellSort(randomArray));
+console.timeEnd();
+
+//? Hybrid version
+//* It performs better for bigger arrays, so for smaller you can use another approach
+const CUTOFF = 7;
+const hybridQuicksort = (arr, left = 0, right = arr.length - 1) => {
+  if (left < right) {
+    if (right - left < CUTOFF) {
+      insertionSortOptimized(arr, left, right);
+    } else {
+      standardQuicksort(arr, left, right);
+    }
+  }
+  return arr;
+}
+console.info("Quicksort Hybrid Version");
+console.time();
+console.log(shellSort(randomArray));
+console.timeEnd();
