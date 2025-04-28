@@ -251,3 +251,5 @@ console.info("Quicksort Hybrid Version");
 console.time();
 console.log(shellSort(randomArray));
 console.timeEnd();
+
+// Test message
