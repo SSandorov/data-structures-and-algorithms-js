@@ -132,7 +132,7 @@ console.log(greatest(bag2));
 //* We only need to modify the functions that modify the bag object directly
 
 const addImmutable = (bag, value) => {
-  bag = { count: bag.count - 1, data: { ...bag.data } };
+  bag = { count: bag.count + 1, data: { ...bag.data } };
   if (find(bag, value)) {
     bag.data[value]++;
   } else {
@@ -153,3 +153,13 @@ const removeImmutable = (bag, value) => {
   }
   return bag;
 };
+
+let bag3 = newBag();
+console.log(isEmpty(bag3));
+
+bag3 = addImmutable(bag3, 'HOME');
+bag3 = addImmutable(bag3, 'HOME');
+
+bag3 = removeImmutable(bag3, 'HOME');
+
+console.log(bag3);
