@@ -58,7 +58,7 @@ const memoFibonacci = memoize((n) => {
     return memoFibonacci(n - 2) + memoFibonacci(n - 1);
   }
 });
-// console.log(memoFibonacci(100));
+console.log(memoFibonacci(100));
 //* Instead of being exponential O(k^n), it becomes linear O(n)
 //* This happens because Fibonacci 100 includes all previous numbers, so it only
 //* needs to calculate the 100 and extract from memory the rest of the values
@@ -138,11 +138,11 @@ const totalWidth3 = memoize((arr, from, to) => {
 
 //? Summing ranges by precomputing with Bottom Up DP
 
-//* Using bottom up will produce a O(1) complexity
-const totalWidth4 = ((tab) => {
-  const partial = [0];
-  tab.forEach((v, i) => {
-    partial[i + 1] = partial[i] + v;
-  });
-  return (from, to) => partial[to + 1] - partial[from];
-})(arr);
+// //* Using bottom up will produce a O(1) complexity
+// const totalWidth4 = ((tab) => {
+//   const partial = [0];
+//   tab.forEach((v, i) => {
+//     partial[i + 1] = partial[i] + v;
+//   });
+//   return (from, to) => partial[to + 1] - partial[from];
+// })(arr);

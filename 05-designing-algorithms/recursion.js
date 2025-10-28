@@ -25,7 +25,7 @@ const factorial = (n) => {
   }
 };
 
-// console.log(factorial(10));
+console.log(factorial(10));
 
 //? Searching and Traversing
 //* An example is the Fibonacci series
@@ -39,7 +39,7 @@ export const fibonacci = (n) => {
     return fibonacci(n - 2) + fibonacci(n - 1);
   }
 };
-// console.log(fibonacci(20));
+console.log(fibonacci(20));
 
 //? Sorting and Puzzles
 //* Towers of Hanoi puzzle
