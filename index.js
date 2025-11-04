@@ -24,6 +24,8 @@ for (let i = 0; i <= nElementsArray; i++) {
 
 //? Sorting with Comparisons
 
+//? Bubbling Up and Down
+
 //? Bubble sort
 //* This algorithm has a subpar performance O(n^2), but it is easy to implement. You can use it for small sets of data.
 //* Its name comes for the simple idea that larger numbers represent bubbles that bubble up to the top of the list.
@@ -79,6 +81,8 @@ console.time();
 console.log(shuttleSort(arrayToBeSorted));
 console.timeEnd();
 
+//? Sorting Strategies for Playing Cards
+
 //? Selection Sort
 //* This algorithm will look for the lowest number and swap its position with the first element on the left. It will keep
 //* on doing it until if orders the array
@@ -115,7 +119,7 @@ const insertionSort2Loop = (arr, from = 0, to = arr.length - 1) => {
   }
   return arr;
 };
-console.info("Insertion Sort 2-Loop");
+console.info("Insertion Sort");
 console.time();
 console.log(insertionSort2Loop(randomArray));
 console.timeEnd();
@@ -136,6 +140,8 @@ console.time();
 console.log(insertionSortOptimized(randomArray));
 console.timeEnd();
 //* Both of them are O(n^2)
+
+//? Making Bigger Jumps with Comb and shell Sort
 
 //? Comb sort
 //* Similar to bubble sort, but in this case you consider larger gaps to compare with
