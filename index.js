@@ -44,7 +44,7 @@ const bubbleSort = (arr, from = 0, to = arr.length - 1) => {
 };
 console.info("bubble Sort");
 console.time();
-console.log(bubbleSort(arrayToBeSorted));
+console.log(bubbleSort([...arrayToBeSorted]));
 console.timeEnd();
 
 //? Sinking Sort
@@ -78,7 +78,7 @@ const shuttleSort = (arr, from = 0, to = arr.length - 1) => {
 };
 console.info("Shuttle Sort");
 console.time();
-console.log(shuttleSort(arrayToBeSorted));
+console.log(shuttleSort([...arrayToBeSorted]));
 console.timeEnd();
 
 //? Sorting Strategies for Playing Cards
@@ -101,10 +101,6 @@ const selectionSort = (arr, from = 0, to = arr.length - 1) => {
   return arr;
 };
 //* This algorithm is still a O(n^2)
-console.info("Selection Sort");
-console.time();
-console.log(selectionSort(randomArray));
-console.timeEnd();
 
 //? Insertion Sort
 //* The first number is already sorted. When you take the second one, you compare it with the first one and sort them.
@@ -119,10 +115,6 @@ const insertionSort2Loop = (arr, from = 0, to = arr.length - 1) => {
   }
   return arr;
 };
-console.info("Insertion Sort");
-console.time();
-console.log(insertionSort2Loop(randomArray));
-console.timeEnd();
 
 const insertionSortOptimized = (arr, from = 0, to = arr.length - 1) => {
   for (let i = from + 1; i <= to; i++) {
@@ -135,10 +127,6 @@ const insertionSortOptimized = (arr, from = 0, to = arr.length - 1) => {
   }
   return arr;
 };
-console.info("Insertion Sort Optimized");
-console.time();
-console.log(insertionSortOptimized(randomArray));
-console.timeEnd();
 //* Both of them are O(n^2)
 
 //? Making Bigger Jumps with Comb and shell Sort
@@ -163,10 +151,6 @@ const combSort = (arr, from = 0, to = arr.length - 1) => {
     }
   }
 };
-console.info("Comb Sort");
-console.time();
-console.log(combSort(randomArray));
-console.timeEnd();
 //* O(n^2)
 
 //? Shell Sort
@@ -192,15 +176,30 @@ const shellSort = (arr, from = 0, to = arr.length - 1) => {
   });
   return arr;
 };
-console.info("Shell Sort");
-console.time();
-console.log(shellSort(randomArray));
-console.timeEnd();
 //* O(n^1.5)
 
-//? Quicksort
+//? Going for speed with Quicksort
 //* It achieves a O(n logn) BUT with its worst-case scenario a O(n^2), so we have to be aware of
 //* the cases where we must not use it
+const badQuickSort = (arr, left = 0, right = arr.length - 1) => {
+  if (left < right) {
+    const pivot = arr[right];
+
+    let p = left;
+    for (let j = left; j < right; j++) {
+      if (pivot > arr[j]) {
+        [arr[p] , arr[j]] = [arr[j], arr[p]];
+        p++;
+      }
+    }
+    [arr[p] , arr[right]] = [arr[right], arr[p]];
+
+    badQuickSort(arr, left, p - 1);
+    badQuickSort(arr, p + 1, right);
+  }
+
+  return arr;
+}
 
 //? Standard version Quicksort
 //* Recursively select an element of the array, and sort the two subarrays between the element depending if they are smaller
@@ -235,10 +234,6 @@ const standardQuicksort = (arr, left = 0, right = arr.length - 1) => {
 
   return arr;
 }
-console.info("Quicksort Standard Version");
-console.time();
-console.log(shellSort(randomArray));
-console.timeEnd();
 
 //? Hybrid version
 //* It performs better for bigger arrays, so for smaller you can use another approach
@@ -253,9 +248,47 @@ const hybridQuicksort = (arr, left = 0, right = arr.length - 1) => {
   }
   return arr;
 }
-console.info("Quicksort Hybrid Version");
-console.time();
-console.log(shellSort(randomArray));
-console.timeEnd();
 
 // Test message
+
+//* Testing all algorithms
+
+console.info("Selection Sort");
+console.time("Selection Sort");
+selectionSort([...randomArray]);
+console.timeEnd("Selection Sort");
+
+console.info("Insertion Sort");
+console.time("Insertion Sort");
+insertionSort2Loop([...randomArray]);
+console.timeEnd("Insertion Sort");
+
+console.info("Insertion Sort Optimized");
+console.time("Insertion Sort Optimized");
+insertionSortOptimized([...randomArray]);
+console.timeEnd("Insertion Sort Optimized");
+
+console.info("Comb Sort");
+console.time("Comb Sort");
+combSort([...randomArray]);
+console.timeEnd("Comb Sort");
+
+console.info("Shell Sort");
+console.time("Shell Sort");
+shellSort([...randomArray]);
+console.timeEnd("Shell Sort");
+
+console.info("Bad Quicksort");
+console.time("Bad Version");
+badQuickSort([...randomArray]);
+console.timeEnd("Bad Version");
+
+console.info("Quicksort Standard Version");
+console.time("Quicksort Standard Version");
+standardQuicksort([...randomArray]);
+console.timeEnd("Quicksort Standard Version");
+
+console.info("Quicksort Hybrid Version");
+console.time("Quicksort Hybrid Version");
+hybridQuicksort([...randomArray]);
+console.timeEnd("Quicksort Hybrid Version");
