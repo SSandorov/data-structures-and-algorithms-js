@@ -180,7 +180,7 @@ const shellSort = (arr, from = 0, to = arr.length - 1) => {
 
 //? Going for speed with Quicksort
 //* It achieves a O(n logn) BUT with its worst-case scenario a O(n^2), so we have to be aware of
-//* the cases where we must not use it
+//* the cases where we must not use it, and that case is when the Array is sorted or partially sorted
 const badQuickSort = (arr, left = 0, right = arr.length - 1) => {
   if (left < right) {
     const pivot = arr[right];
@@ -249,6 +249,80 @@ const hybridQuicksort = (arr, left = 0, right = arr.length - 1) => {
   return arr;
 }
 
+//? Dual-Pivot Version
+//* We split the array in three parts with two pivots. Java uses it as the default sorting algorithm for primitive
+//* types
+const dualpivot = (arr, left = 0, right = arr.length - 1) => {
+  if (left < right) {
+    if (right - left < CUTOFF) {
+      insertionSortOptimized(arr, left, right);
+    } else {
+      if (arr[left] > arr[right]) {
+        [arr[left], arr[right]] = [arr[right], arr[left]];
+      }
+      const pivotLeft = arr[left];
+      const pivotRight = arr[right];
+
+      let ll = left + 1;
+      let rr = right - 1;
+      for (let mm = ll; mm <= rr; mm++) {
+        if (pivotLeft > arr[mm]) {
+          [arr[mm], arr[ll]] = [arr[ll], arr[mm]];
+          ll++;
+        } else if (arr[mm] > pivotRight) {
+          while (arr[rr] > pivotRight && mm < rr) {
+            rr--;
+          }
+          [arr[mm], arr[rr]] = [arr[rr], arr[mm]];
+          rr--;
+
+          if (pivotLeft > arr[mm]) {
+            [arr[mm], arr[ll]] = [arr[ll], arr[mm]];
+            ll++;
+          }
+        }
+      }
+      ll--;
+      rr++;
+      [arr[left], arr[ll]] = [arr[ll], arr[left]];
+      [arr[right], arr[rr]] = [arr[rr], arr[right]];
+
+      dualpivot(arr, left, ll - 1);
+      dualpivot(arr, ll + 1, rr - 1);
+      dualpivot(arr, rr + 1, right);
+    }
+  }
+  return arr;
+}
+
+//? Merging for Performance with Merge Sort
+//* The merge sort guarantees a constant perfomance at the cost of memory.
+const mergeSort = (arr, left = 0, right = arr.length - 1) => {
+  if (right > left) {
+    const split = Math.floor((left + right)/2);
+
+    const arrL = mergeSort(arr.slice(left, split + 1));
+    const arrR = mergeSort(arr.slice(split + 1, right + 1));
+
+    let ll = 0;
+    let rr = 0;
+
+    for (let i = left; i <= right; i++) {
+      if (
+        ll !== arrL.length &&
+        (rr === arrR.length || !arrR[ll] > arrL[rr])
+      ) {
+        arr[i] = arrL[ll];
+        ll++;
+      } else {
+        arr[i] = arrR[rr];
+        rr++;
+      }
+    }
+  }
+  return arr;
+}
+
 // Test message
 
 //* Testing all algorithms
@@ -292,3 +366,13 @@ console.info("Quicksort Hybrid Version");
 console.time("Quicksort Hybrid Version");
 hybridQuicksort([...randomArray]);
 console.timeEnd("Quicksort Hybrid Version");
+
+console.info("Quicksort Dual Pivot");
+console.time("Quicksort Dual Pivot");
+dualpivot([...randomArray]);
+console.timeEnd("Quicksort Dual Pivot");
+
+console.info("Merge Sort");
+console.time("Merge Sort");
+mergeSort([...randomArray]);
+console.timeEnd("Merge Sort");
