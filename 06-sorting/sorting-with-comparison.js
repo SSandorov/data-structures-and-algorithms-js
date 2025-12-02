@@ -1,4 +1,4 @@
-import {getUnsortedArray} from '../resources/unsorted-array.js';
+import { getUnsortedArray } from "../resources/unsorted-array.js";
 
 //? Sorting algorithms
 
@@ -22,7 +22,7 @@ const unsortedArray = getUnsortedArray();
 let randomArray = [];
 const nElementsArray = 100000;
 for (let i = 0; i <= nElementsArray; i++) {
-  randomArray.push(Math.floor(Math.random()*100));
+  randomArray.push(Math.floor(Math.random() * 100));
 }
 
 //? Sorting with Comparisons
@@ -191,24 +191,24 @@ const badQuickSort = (arr, left = 0, right = arr.length - 1) => {
     let p = left;
     for (let j = left; j < right; j++) {
       if (pivot > arr[j]) {
-        [arr[p] , arr[j]] = [arr[j], arr[p]];
+        [arr[p], arr[j]] = [arr[j], arr[p]];
         p++;
       }
     }
-    [arr[p] , arr[right]] = [arr[right], arr[p]];
+    [arr[p], arr[right]] = [arr[right], arr[p]];
 
     badQuickSort(arr, left, p - 1);
     badQuickSort(arr, p + 1, right);
   }
 
   return arr;
-}
+};
 
 //? Standard version Quicksort
 //* Recursively select an element of the array, and sort the two subarrays between the element depending if they are smaller
 //* or bigger than the element. You end up with a sorted array
 const standardQuicksort = (arr, left = 0, right = arr.length - 1) => {
-  const middle = Math.floor((left + right)/2);
+  const middle = Math.floor((left + right) / 2);
   if (arr[left] > arr[middle]) {
     [arr[left], arr[middle]] = [arr[middle], arr[left]];
   }
@@ -219,7 +219,7 @@ const standardQuicksort = (arr, left = 0, right = arr.length - 1) => {
     [arr[right], arr[middle]] = [arr[middle], arr[right]];
   }
 
-  if (left < right){
+  if (left < right) {
     const pivot = arr[right];
 
     let p = left;
@@ -236,7 +236,7 @@ const standardQuicksort = (arr, left = 0, right = arr.length - 1) => {
   }
 
   return arr;
-}
+};
 
 //? Hybrid version
 //* It performs better for bigger arrays, so for smaller you can use another approach
@@ -250,7 +250,7 @@ const hybridQuicksort = (arr, left = 0, right = arr.length - 1) => {
     }
   }
   return arr;
-}
+};
 
 //? Dual-Pivot Version
 //* We split the array in three parts with two pivots. Java uses it as the default sorting algorithm for primitive
@@ -296,13 +296,13 @@ const dualpivot = (arr, left = 0, right = arr.length - 1) => {
     }
   }
   return arr;
-}
+};
 
 //? Merging for Performance with Merge Sort
 //* The merge sort guarantees a constant perfomance at the cost of memory.
 const mergeSort = (arr, left = 0, right = arr.length - 1) => {
   if (right > left) {
-    const split = Math.floor((left + right)/2);
+    const split = Math.floor((left + right) / 2);
 
     const arrL = mergeSort(arr.slice(left, split + 1));
     const arrR = mergeSort(arr.slice(split + 1, right + 1));
@@ -311,10 +311,7 @@ const mergeSort = (arr, left = 0, right = arr.length - 1) => {
     let rr = 0;
 
     for (let i = left; i <= right; i++) {
-      if (
-        ll !== arrL.length &&
-        (rr === arrR.length || !arrR[ll] > arrL[rr])
-      ) {
+      if (ll !== arrL.length && (rr === arrR.length || !arrR[ll] > arrL[rr])) {
         arr[i] = arrL[ll];
         ll++;
       } else {
@@ -324,7 +321,7 @@ const mergeSort = (arr, left = 0, right = arr.length - 1) => {
     }
   }
   return arr;
-}
+};
 
 // Test message
 
