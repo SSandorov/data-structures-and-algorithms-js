@@ -60,6 +60,18 @@ const randomPivot = (arr, left, right) => {
     }
 }
 
+const qSelect = (arr, k, left = 0, right = arr.length - 1) => {
+    quickSelect(arr, k, left, right);
+    return arr[k];
+}
+
+//? Median of medians
+/*
+*   1. Divide the array in groups of up to five elements
+*   2. Find the median of each group
+*   3. Find the median of the medians found in the previous step
+*   4. Use the value to split the array
+*/
 
 
 //* Testing all algorithms
