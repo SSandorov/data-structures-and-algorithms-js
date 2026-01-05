@@ -31,9 +31,9 @@ const sortingSelect = (arr, k, from = 0, to = arr.length - 1) => {
 //* We will study the difference in performance based on the selection
 //* of the pivot
 
-const quickSelect = (arr, k, left = 0, right = arr.length - 1) => {
+const quickSelect = (arr, k, pivotSelection, left = 0, right = arr.length - 1) => {
   if (left < right) {
-    randomPivot(arr, left, right);
+    pivotSelection(arr, left, right, re);
 
     const pivot = arr[right];
 
@@ -71,11 +71,43 @@ const qSelect = (arr, k, left = 0, right = arr.length - 1) => {
 //? Median of medians
 /*
  *   1. Divide the array in groups of up to five elements
- *   2. Find the median of each group
+ *   2. Find the median of each group  
  *   3. Find the median of the medians found in the previous step
  *   4. Use the value to split the array
  */
+const insertionSortOptimized = (arr, from = 0, to = arr.length - 1) => {
+  for (let i = from + 1; i <= to; i++) {
+    const temp = arr[i];
+    let j;
+    for (j = i; j > from && arr[j - 1] > temp; j--) {
+      arr[j] = arr[j - 1];
+    }
+    arr[j] = temp;
+  }
+  return arr;
+};
 
+const simpleMedian = (arr, left, right) => {
+  insertionSortOptimized(arr, left, right);
+  return Math.floor((left + right) / 2);
+}
+
+const momPivot = (arr, left, right, recurCall) => {
+  let mom;
+  if (right - left < 5) {
+    mom = simpleMedian(arr, left, right);
+  } else {
+    let j = left - 1;
+    for (let i = left; i <= right; i += 5) {
+      const med = simpleMedian(arr, i, Math.min(i + 4, right));
+      j++;
+      [arr[j], arr[med]] = [arr[med], arr[j]];
+    }
+    mom = Math.floor((left + j) / 2);
+    recurCall(arr, mom, left, j);
+  }
+  [arr[right], arr[mom]] = [arr[mom], arr[right]];
+}
 //* Testing all algorithms
 
 console.info("Sorting selection");
@@ -84,5 +116,8 @@ sortingSelect([...getUnsortedArray()], getUnsortedArray()[1]);
 console.timeEnd("Sorting selection");
 console.info("Quickselect Random Pivot");
 console.time("Quickselect Random Pivot");
-quickSelect([...getUnsortedArray()], getUnsortedArray()[3000]);
+quickSelect([...getUnsortedArray()], getUnsortedArray()[3000], randomPivot);
 console.timeEnd("Quickselect Random Pivot");
+console.time("Quickselect Median of Medians Pivot");
+quickSelect([...getUnsortedArray()], getUnsortedArray()[3000], momPivot);
+console.timeEnd("Quickselect Median of Medians Pivot");
