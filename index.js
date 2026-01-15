@@ -31,10 +31,12 @@ const sortingSelect = (arr, k, from = 0, to = arr.length - 1) => {
 //* We will study the difference in performance based on the selection
 //* of the pivot
 
-const quickSelect = (arr, k, pivotSelection, left = 0, right = arr.length - 1) => {
+const quickSelectRandomPivot = (arr, k, left = 0, right = arr.length - 1) => {
   if (left < right) {
-    pivotSelection(arr, left, right, re);
-
+    const pick = left + Math.floor((right + 1 - left) * Math.random());
+    if (pick !== right) {
+      [arr[pick], arr[right]] = [arr[right], arr[pick]];
+    }
     const pivot = arr[right];
 
     let p = left;
@@ -49,17 +51,10 @@ const quickSelect = (arr, k, pivotSelection, left = 0, right = arr.length - 1) =
     if (p === k) {
       return;
     } else if (p > k) {
-      return quickSelect(arr, k, left, p - 1);
+      return quickSelectRandomPivot(arr, k, left, p - 1);
     } else {
-      return quickSelect(arr, k, p + 1, right);
+      return quickSelectRandomPivot(arr, k, p + 1, right);
     }
-  }
-};
-
-const randomPivot = (arr, left, right) => {
-  const pick = left + Math.floor((right + 1 - left) * Math.random());
-  if (pick !== right) {
-    [arr[pick], arr[right]] = [arr[right], arr[pick]];
   }
 };
 
@@ -92,21 +87,42 @@ const simpleMedian = (arr, left, right) => {
   return Math.floor((left + right) / 2);
 }
 
-const momPivot = (arr, left, right, recurCall) => {
-  let mom;
-  if (right - left < 5) {
-    mom = simpleMedian(arr, left, right);
-  } else {
-    let j = left - 1;
-    for (let i = left; i <= right; i += 5) {
-      const med = simpleMedian(arr, i, Math.min(i + 4, right));
-      j++;
-      [arr[j], arr[med]] = [arr[med], arr[j]];
+const quickSelectMOMPivot = (arr, k, left = 0, right = arr.length - 1) => {
+  if (left < right) {
+    let mom;
+    if (right - left < 5) {
+      mom = simpleMedian(arr, left, right);
+    } else {
+      let j = left - 1;
+      for (let i = left; i <= right; i += 5) {
+        const med = simpleMedian(arr, i, Math.min(i + 4, right));
+        j++;
+        [arr[j], arr[med]] = [arr[med], arr[j]];
+      }
+      mom = Math.floor((left + j) / 2);
+      quickSelectMOMPivot(arr, mom, left, j);
     }
-    mom = Math.floor((left + j) / 2);
-    recurCall(arr, mom, left, j);
+    [arr[right], arr[mom]] = [arr[mom], arr[right]];
+    
+    const pivot = arr[right];
+
+    let p = left;
+    for (let j = left; j < right; j++) {
+      if (pivot > arr[j]) {
+        [arr[p], arr[j]] = [arr[j], arr[p]];
+        p++;
+      }
+    }
+    [arr[p], arr[right]] = [arr[right], arr[p]];
+
+    if (p === k) {
+      return;
+    } else if (p > k) {
+      return quickSelectMOMPivot(arr, k, left, p - 1);
+    } else {
+      return quickSelectMOMPivot(arr, k, p + 1, right);
+    }
   }
-  [arr[right], arr[mom]] = [arr[mom], arr[right]];
 }
 //* Testing all algorithms
 
@@ -116,8 +132,9 @@ sortingSelect([...getUnsortedArray()], getUnsortedArray()[1]);
 console.timeEnd("Sorting selection");
 console.info("Quickselect Random Pivot");
 console.time("Quickselect Random Pivot");
-quickSelect([...getUnsortedArray()], getUnsortedArray()[3000], randomPivot);
+quickSelectRandomPivot([...getUnsortedArray()], getUnsortedArray()[3000]);
 console.timeEnd("Quickselect Random Pivot");
+console.info("Quickselect Median of Medians Pivot");
 console.time("Quickselect Median of Medians Pivot");
-quickSelect([...getUnsortedArray()], getUnsortedArray()[3000], momPivot);
+quickSelectMOMPivot([...getUnsortedArray()], getUnsortedArray()[3000]);
 console.timeEnd("Quickselect Median of Medians Pivot");
