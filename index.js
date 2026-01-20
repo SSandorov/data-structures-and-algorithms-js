@@ -69,6 +69,10 @@ const qSelect = (arr, k, left = 0, right = arr.length - 1) => {
  *   2. Find the median of each group  
  *   3. Find the median of the medians found in the previous step
  *   4. Use the value to split the array
+ * 
+ *  Compared to the random pivot selection which could have a O(n^2)
+ *  performance in the worst case, the MOM pivot selection has an
+ *  average of O(n) performance
  */
 const insertionSortOptimized = (arr, from = 0, to = arr.length - 1) => {
   for (let i = from + 1; i <= to; i++) {
@@ -124,17 +128,78 @@ const quickSelectMOMPivot = (arr, k, left = 0, right = arr.length - 1) => {
     }
   }
 }
+
+//? Repeated median of three
+/*
+* This algorithm for selection the pivot does not partition as good as the mom, but it is faster
+* It implements the ninther technique, which goes through the whole array, and generates a set out of
+* the median of three values. Then goes through that set and does the same again.
+* The step of choosing the median of three reduces the size of the array to a ninth, so the recursion
+* goes really fast
+*/
+
+const quickSelectMedianOfThreePivot = (arr, k, left = 0, right = arr.length - 1) => {
+  if (left < right) {
+    let mom;
+    if (right - left < 9) {
+      mom = simpleMedian(arr, left, right);
+    } else {
+
+      let j1 = left - 1;
+      for (let i = left; i <= right; i += 3) {
+        const med = simpleMedian(arr, i, Math.min(i + 2, right));
+        j1++;
+        [arr[j1], arr[med]] = [arr[med], arr[j1]];
+      }
+
+      let j2 = left - 1;
+      for (let i = left; i <= j1; i += 3) {
+        const med = simpleMedian(arr, i, Math.min(i + 2, j1));
+        j2++;
+        [arr[j2], arr[med]] = [arr[med], arr[j2]];
+      }
+
+      mom = Math.floor((left + j2) / 2);
+      quickSelectMedianOfThreePivot(arr, mom, left, j2);
+    }
+    [arr[right], arr[mom]] = [arr[mom], arr[right]];
+
+    const pivot = arr[right];
+
+    let p = left;
+    for (let j = left; j < right; j++) {
+      if (pivot > arr[j]) {
+        [arr[p], arr[j]] = [arr[j], arr[p]];
+        p++;
+      }
+    }
+    [arr[p], arr[right]] = [arr[right], arr[p]];
+
+    if (p === k) {
+      return;
+    } else if (p > k) {
+      return quickSelectMOMPivot(arr, k, left, p - 1);
+    } else {
+      return quickSelectMOMPivot(arr, k, p + 1, right);
+    }
+  }
+}
+
 //* Testing all algorithms
 
 console.info("Sorting selection");
 console.time("Sorting selection");
-sortingSelect([...getUnsortedArray()], getUnsortedArray()[1]);
+sortingSelect([...getUnsortedArray()], getUnsortedArray()[3000]);
 console.timeEnd("Sorting selection");
 console.info("Quickselect Random Pivot");
 console.time("Quickselect Random Pivot");
-quickSelectRandomPivot([...getUnsortedArray()], getUnsortedArray()[3000]);
+quickSelectRandomPivot([...getUnsortedArray()], getUnsortedArray()[7000]);
 console.timeEnd("Quickselect Random Pivot");
 console.info("Quickselect Median of Medians Pivot");
 console.time("Quickselect Median of Medians Pivot");
-quickSelectMOMPivot([...getUnsortedArray()], getUnsortedArray()[3000]);
+quickSelectMOMPivot([...getUnsortedArray()], getUnsortedArray()[4000]);
 console.timeEnd("Quickselect Median of Medians Pivot");
+console.info("Quickselect Median of Three Pivot");
+console.time("Quickselect Median of Three Pivot");
+quickSelectMedianOfThreePivot([...getUnsortedArray()], getUnsortedArray()[4000]);
+console.timeEnd("Quickselect Median of Three Pivot");
