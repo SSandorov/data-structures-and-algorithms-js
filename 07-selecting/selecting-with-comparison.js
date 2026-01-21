@@ -66,10 +66,10 @@ const qSelect = (arr, k, left = 0, right = arr.length - 1) => {
 //? Median of medians
 /*
  *   1. Divide the array in groups of up to five elements
- *   2. Find the median of each group  
+ *   2. Find the median of each group
  *   3. Find the median of the medians found in the previous step
  *   4. Use the value to split the array
- * 
+ *
  *  Compared to the random pivot selection which could have a O(n^2)
  *  performance in the worst case, the MOM pivot selection has an
  *  average of O(n) performance
@@ -89,7 +89,7 @@ const insertionSortOptimized = (arr, from = 0, to = arr.length - 1) => {
 const simpleMedian = (arr, left, right) => {
   insertionSortOptimized(arr, left, right);
   return Math.floor((left + right) / 2);
-}
+};
 
 const quickSelectMOMPivot = (arr, k, left = 0, right = arr.length - 1) => {
   if (left < right) {
@@ -107,7 +107,7 @@ const quickSelectMOMPivot = (arr, k, left = 0, right = arr.length - 1) => {
       quickSelectMOMPivot(arr, mom, left, j);
     }
     [arr[right], arr[mom]] = [arr[mom], arr[right]];
-    
+
     const pivot = arr[right];
 
     let p = left;
@@ -127,24 +127,28 @@ const quickSelectMOMPivot = (arr, k, left = 0, right = arr.length - 1) => {
       return quickSelectMOMPivot(arr, k, p + 1, right);
     }
   }
-}
+};
 
 //? Repeated median of three
 /*
-* This algorithm for selection the pivot does not partition as good as the mom, but it is faster
-* It implements the ninther technique, which goes through the whole array, and generates a set out of
-* the median of three values. Then goes through that set and does the same again.
-* The step of choosing the median of three reduces the size of the array to a ninth, so the recursion
-* goes really fast
-*/
+ * This algorithm for selection the pivot does not partition as good as the mom, but it is faster
+ * It implements the ninther technique, which goes through the whole array, and generates a set out of
+ * the median of three values. Then goes through that set and does the same again.
+ * The step of choosing the median of three reduces the size of the array to a ninth, so the recursion
+ * goes really fast
+ */
 
-const quickSelectMedianOfThreePivot = (arr, k, left = 0, right = arr.length - 1) => {
+const quickSelectMedianOfThreePivot = (
+  arr,
+  k,
+  left = 0,
+  right = arr.length - 1,
+) => {
   if (left < right) {
     let mom;
     if (right - left < 9) {
       mom = simpleMedian(arr, left, right);
     } else {
-
       let j1 = left - 1;
       for (let i = left; i <= right; i += 3) {
         const med = simpleMedian(arr, i, Math.min(i + 2, right));
@@ -183,7 +187,7 @@ const quickSelectMedianOfThreePivot = (arr, k, left = 0, right = arr.length - 1)
       return quickSelectMOMPivot(arr, k, p + 1, right);
     }
   }
-}
+};
 
 //? Median with lazy select
 
@@ -248,7 +252,7 @@ const quickSelectLazyPivot = (arr, k, left = 0, right = arr.length - 1) => {
 
   mergeSort(m);
   return m[Math.floor(len / 2) - dSize];
-}
+};
 
 //* Testing all algorithms
 
@@ -266,7 +270,10 @@ quickSelectMOMPivot([...getUnsortedArray()], getUnsortedArray()[4000]);
 console.timeEnd("Quickselect Median of Medians Pivot");
 console.info("Quickselect Median of Three Pivot");
 console.time("Quickselect Median of Three Pivot");
-quickSelectMedianOfThreePivot([...getUnsortedArray()], getUnsortedArray()[4000]);
+quickSelectMedianOfThreePivot(
+  [...getUnsortedArray()],
+  getUnsortedArray()[4000],
+);
 console.timeEnd("Quickselect Median of Three Pivot");
 console.info("Quickselect Lazy Pivot");
 console.time("Quickselect Lazy Pivot");

@@ -81,6 +81,6 @@ console.info("Count selection");
 console.time("Count selection");
 countingSelect(
   [...getUnsortedArrayWithDuplicates()],
-  getUnsortedArrayWithDuplicates()[20]
+  getUnsortedArrayWithDuplicates()[20],
 );
 console.timeEnd("Count selection");
