@@ -20,3 +20,25 @@ const randomBit = () => Math.random() >= 0.5;
 const randomNum = (a, b) => a + (b - a) * Math.random();
 //* Same as the previous but returning integer values
 const randomInt = (a, b) => Math.floor(randomNum(a, b));
+
+
+//? Shuffling
+/*
+*   First we will shuffle an array of values in order to produce a random sequence of values, or using a
+*   mathematical term, a permutation.
+*   A real world example is shuffling a deck of cards before playing a game to start anew with a different
+*   sequence of cards every time
+
+*   An important requisite is that every possible permutation should be equally likely, and that is something
+*   difficult to test
+
+*   A way to do so would be to run the algorithm many times with a known input sequence and test statistically
+*   whether the observed outcomes suggest a uniform distribution
+*/
+
+//? Shuffling by sorting
+//* It does not have the best performance, but it's the simplest implementation
+//* To shuffle a set of values:
+//* 1. Associate a random number with each value
+//* 2. Sort the set on that random value
+//* The result will be a totally random shuflle
